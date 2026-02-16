@@ -1,0 +1,94 @@
+import random
+
+def number_guessing_game():
+    print("🎯 Welcome to the Number Guessing Game!")
+    print("\nChoose a difficulty level:")
+    print("1️⃣ Easy   (10 attempts)")
+    print("2️⃣ Medium (7 attempts)")
+    print("3️⃣ Hard   (5 attempts)")
+
+    while True:
+        choice = input("\nEnter level (1/2/3): ")
+        if choice == "1":
+            max_attempts = 10
+            close_range = 7
+            level = "Easy"
+            break
+        elif choice == "2":
+            max_attempts = 7
+            close_range = 5
+            level = "Medium"
+            break
+        elif choice == "3":
+            max_attempts = 5
+            close_range = 3
+            level = "Hard"
+            break
+        else:
+            print("❌ Invalid choice. Please select 1, 2, or 3.")
+
+    secret_number = random.randint(1, 100)
+    attempts = 0
+    score = 0
+
+    print(f"\n🔥 {level} Mode Selected!")
+    print("I'm thinking of a number between 1 and 100.")
+
+    while attempts < max_attempts:
+        try:
+            guess = int(input(f"\nAttempt {attempts + 1}/{max_attempts} - Enter your guess: "))
+        except ValueError:
+            print("❌ Please enter a valid number.")
+            continue
+
+        if guess < 1 or guess > 100:
+            print("⚠️ Number must be between 1 and 100.")
+            continue
+
+        attempts += 1
+        difference = abs(secret_number - guess)
+
+        if guess == secret_number:
+            score += 100
+            print(f"🎉 Correct! You guessed the number in {attempts} attempts.")
+            print("🏆 +100 points!")
+            break
+        else:
+            score -= 10
+
+        if guess < secret_number:
+            print("⬆️ Too low!")
+        else:
+            print("⬇️ Too high!")
+
+        if difference <= close_range:
+            score += 5
+            print("🔥 Hint: So Close! (+5 points)")
+        else:
+            score -= 5
+            print("🥶 Hint: Too Far! (-5 points)")
+
+        print(f"📊 Current Score: {score}")
+
+    else:
+        print(f"\n😢 Game Over! The number was {secret_number}.")
+
+    print("\n📋 Final Result")
+    print("─────────────────")
+    print(f"🎯 Level Played : {level}")
+    print(f"🔢 Attempts Used: {attempts}/{max_attempts}")
+    print(f"⭐ Final Score  : {score}")
+
+    if score >= 100:
+        print("🥇 Rank: Master Guesser")
+    elif score >= 50:
+        print("🥈 Rank: Skilled Player")
+    elif score >= 0:
+        print("🥉 Rank: Beginner")
+    else:
+        print("💀 Rank: Better Luck Next Time")
+
+    print("\n👋 Thanks for playing!")
+
+# Start the game
+number_guessing_game()
